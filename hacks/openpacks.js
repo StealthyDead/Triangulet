@@ -10,7 +10,15 @@ let unlocks = {
 let unique = 'NONE'
 let stop = false
 
-el = document.createElement('div')
+let packs = await fetch('/data/trians', { headers: { 'Accept': 'application/json', 'authorization': triangulet.tokenraw, 'Content-Type': 'application/json' } }).then(x => {return x.json()})
+
+packOptions = await packs.ValuesnCapsules.map(x => x.name)
+
+let pack = prompt(`What pack do you want to open? These are the following options: ${packOptions.join(', ')}`)
+if (!packOptions.includes(pack)) {
+    alert('This is not a valid capsule. Currently, this is case sensitive (Will change in the future)')
+} else {
+    el = document.createElement('div')
 el.style.position = 'absolute'
 el.style.top = '10px'
 el.style.right = '10px'
@@ -42,24 +50,27 @@ function run() {
 
 setInterval(() => {
     if (!stop) {
-        fetch('/api/open', { method: 'POST', headers: { 'Accept': 'application/json', 'authorization': triangulet.tokenraw, 'Content-Type': 'application/json' }, body: JSON.stringify({ "capsule": `Hacker` })}).then(x => x.json()).then(response => {
-            if (response.new) unique = response.rarity
-            if (unlocks[response.rarity][response.trian]) unlocks[response.rarity][response.trian] = unlocks[response.rarity][response.trian] + 1
-            else unlocks[response.rarity][response.trian] = 1
-            document.querySelector('.triangulet-hack-box').innerHTML = ''
-            document.querySelector('.triangulet-hack-box').innerHTML += `<h3 style="margin: 10px">${response.rarity} ${response.trian} (${unlocks[response.rarity][response.trian].toLocaleString()}x)</h3>`
-            document.querySelector('.triangulet-hack-box').innerHTML += `<p style="margin: 0px">RECENT UNIQUE: ${unique}</p>`
-            document.querySelector('.triangulet-hack-box').innerHTML += `<button type="button" class="openerStop" style="background-color: #039162; color: white; padding: 9px; border-radius: 8px; height: fit-content; width: fit-content; font-size: 15px; font-family: Nunito; border: none; box-shadow: 0px 7px 0px 0px #01744e; cursor: pointer; transition: .3s ease; margin: 9px;" onclick="run()">Stop Opener</button>`
-            document.querySelector('.triangulet-hack-box').innerHTML += '<h2 style="margin: 3px; text-decoration: underline">Logs</h2>'
-            Object.keys(unlocks).forEach(rarity => {
-                document.querySelector('.triangulet-hack-box').innerHTML += `<h3 style="margin: 3px">${rarity}</h3>`
-                Object.keys(unlocks[rarity]).forEach(ul => {
-                    document.querySelector('.triangulet-hack-box').innerHTML += `<p style="margin: 0">${ul}: ${unlocks[rarity][ul].toLocaleString()}x</p>`
+        fetch('/api/open', { method: 'POST', headers: { 'Accept': 'application/json', 'authorization': triangulet.tokenraw, 'Content-Type': 'application/json' }, body: JSON.stringify({ "capsule": pack })}).then(x => x.json()).then(response => {
+                if (response.new) unique = response.rarity
+                if (unlocks[response.rarity][response.trian]) unlocks[response.rarity][response.trian] = unlocks[response.rarity][response.trian] + 1
+                else unlocks[response.rarity][response.trian] = 1
+                document.querySelector('.triangulet-hack-box').innerHTML = ''
+                document.querySelector('.triangulet-hack-box').innerHTML += `<h3 style="margin: 10px">${response.rarity} ${response.trian} (${unlocks[response.rarity][response.trian].toLocaleString()}x)</h3>`
+                document.querySelector('.triangulet-hack-box').innerHTML += `<p style="margin: 0px">RECENT UNIQUE: ${unique}</p>`
+                document.querySelector('.triangulet-hack-box').innerHTML += `<button type="button" class="openerStop" style="background-color: #039162; color: white; padding: 9px; border-radius: 8px; height: fit-content; width: fit-content; font-size: 15px; font-family: Nunito; border: none; box-shadow: 0px 7px 0px 0px #01744e; cursor: pointer; transition: .3s ease; margin: 9px;" onclick="run()">Stop Opener</button>`
+                document.querySelector('.triangulet-hack-box').innerHTML += '<h2 style="margin: 3px; text-decoration: underline">Logs</h2>'
+                Object.keys(unlocks).forEach(rarity => {
+                    document.querySelector('.triangulet-hack-box').innerHTML += `<h3 style="margin: 3px">${rarity}</h3>`
+                    Object.keys(unlocks[rarity]).forEach(ul => {
+                        document.querySelector('.triangulet-hack-box').innerHTML += `<p style="margin: 0">${ul}: ${unlocks[rarity][ul].toLocaleString()}x</p>`
+                    })
                 })
             })
-        })
-    }
-}, 1150)
+        }
+    }, 1150)
+}
+
+
 
 // Thanks for supporting me and my hacks: https://discord.gg/SvEhNNJWB2
 console.log('%cThank you for using my hacks! 👍', 'font-size: 25px')
