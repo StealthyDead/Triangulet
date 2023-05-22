@@ -9,6 +9,7 @@ let unlocks = {
 
 let unique = 'NONE'
 let stop = false
+let opened = 0
 
 let packs = await fetch('/data/trians', { headers: { 'Accept': 'application/json', 'authorization': triangulet.tokenraw, 'Content-Type': 'application/json' } }).then(x => {return x.json()})
 
@@ -23,16 +24,16 @@ el.style.position = 'absolute'
 el.style.top = '10px'
 el.style.right = '10px'
 el.style.height = 'fit-content'
-el.style.width = '18vw'
-el.style.padding = '10px'
+el.style.width = '250px'
+el.style.padding = '18px'
 el.style.background = '#d1d1d1'
-el.style.border = '2px solid rgba(0,0,0,0.4)'
+el.style.border = '2px solid rgba(0,0,0,0.6)'
 el.style.borderRadius = '15px'
 el.style.zIndex = '1000'
 el.classList.add('triangulet-hack-box')
 el.style.display = 'flex'
 el.style.flexDirection = 'column'
-el.style.boxShadow = '0px 0px 9px 0px rgba(0,0,0,0.75)'
+el.style.boxShadow = '0px 0px 11px 0px rgba(0,0,0,0.75)'
 document.querySelector('body').appendChild(el)
 
 function run() {
@@ -52,11 +53,14 @@ setInterval(() => {
     if (!stop) {
         fetch('/api/open', { method: 'POST', headers: { 'Accept': 'application/json', 'authorization': triangulet.tokenraw, 'Content-Type': 'application/json' }, body: JSON.stringify({ "capsule": pack })}).then(x => x.json()).then(response => {
                 if (response.new) unique = response.trian
-                if (unlocks[response.rarity][response.trian]) unlocks[response.rarity][response.trian] = unlocks[response.rarity][response.trian] + 1
+                if (unlocks[response.rarity][response.trian]) unlocks[response.rarity][response.trian] ++
                 else unlocks[response.rarity][response.trian] = 1
+                opened ++
                 document.querySelector('.triangulet-hack-box').innerHTML = ''
                 document.querySelector('.triangulet-hack-box').innerHTML += `<h3 style="margin: 10px">${response.rarity} ${response.trian} (${unlocks[response.rarity][response.trian].toLocaleString()}x)</h3>`
+                document.querySelector('.triangulet-hack-box').innerHTML += `<p style="margin: 0px">Coded by <a href="https://github.com/Piotr1178/Triangulet">Piotr</a>`
                 document.querySelector('.triangulet-hack-box').innerHTML += `<p style="margin: 0px">RECENT UNIQUE: ${unique}</p>`
+                document.querySelector('.triangulet-hack-box').innerHTML += `<p style="margin: 0px">CAPSULES OPENED: ${opened.toLocaleString()}</p>`
                 document.querySelector('.triangulet-hack-box').innerHTML += `<button type="button" class="openerStop" style="background-color: #039162; color: white; padding: 9px; border-radius: 8px; height: fit-content; width: fit-content; font-size: 15px; font-family: Nunito; border: none; box-shadow: 0px 7px 0px 0px #01744e; cursor: pointer; transition: .3s ease; margin: 9px;" onclick="run()">Stop Opener</button>`
                 document.querySelector('.triangulet-hack-box').innerHTML += '<h2 style="margin: 3px; text-decoration: underline">Logs</h2>'
                 Object.keys(unlocks).forEach(rarity => {
