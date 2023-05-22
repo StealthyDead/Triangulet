@@ -64,5 +64,5 @@ setInterval(() => {
 // Thanks for supporting me and my hacks: https://discord.gg/SvEhNNJWB2
 console.log('%cThank you for using my hacks! 👍', 'font-size: 25px')
 console.log('%cYou can find more hacks by Piotr using the link below:', 'font-size: 15px')
-console.log('%chttps://github.com/Piotr1178/Triangulet/hacks', 'font-size: 18px')
+console.log('%chttps://github.com/Piotr1178/Triangulet/tree/main/hacks', 'font-size: 18px')
 console.log('%chttps://discord.gg/SvEhNNJWB2', 'font-size: 13px')
