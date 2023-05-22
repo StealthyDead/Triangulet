@@ -51,7 +51,7 @@ function run() {
 setInterval(() => {
     if (!stop) {
         fetch('/api/open', { method: 'POST', headers: { 'Accept': 'application/json', 'authorization': triangulet.tokenraw, 'Content-Type': 'application/json' }, body: JSON.stringify({ "capsule": pack })}).then(x => x.json()).then(response => {
-                if (response.new) unique = response.rarity
+                if (response.new) unique = response.trian
                 if (unlocks[response.rarity][response.trian]) unlocks[response.rarity][response.trian] = unlocks[response.rarity][response.trian] + 1
                 else unlocks[response.rarity][response.trian] = 1
                 document.querySelector('.triangulet-hack-box').innerHTML = ''
