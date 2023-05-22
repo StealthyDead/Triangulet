@@ -74,7 +74,43 @@ setInterval(() => {
     }, 1150)
 }
 
+// was lazy to write it lol https://www.w3schools.com/howto/howto_js_draggable.asp
 
+dragElement(document.querySelector('.triangulet-hack-box'));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.querySelector('.triangulet-hack-box')) {
+    document.querySelector('.triangulet-hack-box').onmousedown = dragMouseDown;
+  } else {
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
 
 // Thanks for supporting me and my hacks: https://discord.gg/SvEhNNJWB2
 console.log('%cThank you for using my hacks! 👍', 'font-size: 25px')
