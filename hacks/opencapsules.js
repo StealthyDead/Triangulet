@@ -7,13 +7,13 @@ let unlocks = {
     "Mystical": {}
 }
 
-let unique = 'NONE'
+let unique = 'DOLBOYOB'
 let stop = false
 let opened = 0
 
 let packs = await fetch('/data/trians', { headers: { 'Accept': 'application/json', 'authorization': triangulet.tokenraw, 'Content-Type': 'application/json' } }).then(x => {return x.json()})
 
-packOptions = await packs.ValuesnCapsules.map(x => x.name)
+packOptions = await packs.Capsules.map(x => x.name)
 
 let pack = prompt(`What pack do you want to open? These are the following options: ${packOptions.join(', ')}`)
 if (!packOptions.includes(pack)) {
